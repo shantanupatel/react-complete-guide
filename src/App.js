@@ -1,7 +1,9 @@
+import {useState} from "react";
+
 import Expenses from "./components/Expenses/Expenses";
 import NewExpense from "./components/NewExpense/NewExpense";
 
-const expenses = [
+const DUMMY_EXPENSES = [
   {
     id: 'e1',
     title: 'Toilet Paper',
@@ -21,14 +23,23 @@ const expenses = [
     amount: 450,
     date: new Date(2021, 5, 12),
   },
+  {
+    id: 'e5',
+    title: 'Desktop Computer',
+    amount: 300,
+    date: new Date(2019, 2, 9),
+  },
 ];
 
 const App = () => {
-  const addExpenseHandler = (expense) => {
-    // console.log(expense);
+  // state for dynamically adding a new expense to the existing list of expenses
+  const [expenses, setExpenses] = useState(DUMMY_EXPENSES);
 
+  const addExpenseHandler = (expense) => {
     if (expense) {
-      expenses.push(expense);
+      // just pushing a new expense to the existing list won't trigger component refresh
+      // instead a state change would trigger component refresh
+      setExpenses(prevExpenses => [expense, ...prevExpenses]);
     }
   };
 
@@ -41,6 +52,8 @@ const App = () => {
       <Expenses expensesData={expenses} />
     </div>
   );
+
+
 }
 
 export default App;
